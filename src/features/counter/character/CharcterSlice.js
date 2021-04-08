@@ -13,7 +13,6 @@ const initialState = {
 export const characterSlice = createSlice({
   name: 'characters',
   initialState,
-  // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
     character: (state, action) => {
       state.characterList = action.payload;
@@ -22,7 +21,6 @@ export const characterSlice = createSlice({
       state.nextPage = action.payload.next;
       state.characterList = action.payload.results
     },
-    // Use the PayloadAction type to declare the contents of `action.payload`
     previousPage: (state, action) => {
       state.previousPage = action?.payload?.previous
       state.characterList = action?.payload?.results
@@ -31,11 +29,9 @@ export const characterSlice = createSlice({
 
 });
 
-export const { character, nextPage, previousPage, incrementByAmount } = characterSlice.actions;
+export const { character, nextPage, previousPage, } = characterSlice.actions;
 
-// The function below is called a selector and allows us to select a value from
-// the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
+
 export const selectAllCharacters = (state) => state.character?.characterList;
 
 export const getNextPage = (state) => state.character?.nextPage
@@ -59,9 +55,7 @@ export const fetchCharacters = () => async (dispatch) => {
 export const fetchNextPagination = (url) => async (dispatch) => {
   try {
     const {data} = await axios.get(url)
-    console.log(data.next)
     const data2 = await axios.get(data.next)
-    console.log('this is fetch', data2)
     dispatch(nextPage({
       next: data2.data.next,
       results: data2.data.results}
@@ -71,16 +65,14 @@ export const fetchNextPagination = (url) => async (dispatch) => {
       results: data2.data.results}
       ))
   } catch (error) {
-    console.error('')
+    console.error('Next Page Went Wrong')
   }
 }
 
 export const fetchPreviousPagination = (url) => async (dispatch ) => {
   try {
     const {data} = await axios.get(url)
-    console.log(data.next)
     const data2 = await axios.get(data.previous)
-    console.log('this is data2', data2)
     dispatch(previousPage({
       previous: data2.data.previous,
       results: data2.data.results}
@@ -90,14 +82,9 @@ export const fetchPreviousPagination = (url) => async (dispatch ) => {
       results: data2.data.results}
       ))
   } catch (error) {
-    console.error('NEXT PAGE NOT WORKING')
+    console.error('Previous Page Went Wrong')
   }
 }
 
-
-// export const fetchCharacterProfile = () => async (dispatch,index) => {
-//   const {data} = await axios.get(`https://swapi.dev/api/people/${index}`)
-//   dispatch(profile(data.results))
-// }
 
 export default characterSlice.reducer;

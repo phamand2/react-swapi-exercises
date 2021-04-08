@@ -9,7 +9,7 @@ import {
   getPreviousPage,
   selectAllCharacters,
 } from "../features/counter/character/CharcterSlice";
-import { Container, Box, List, Section, Heading, Pagination } from "react-bulma-components";
+import { Container, Box, List, Section, Heading } from "react-bulma-components";
 
 
 
@@ -33,7 +33,7 @@ const CharacterList = () => {
 
   useEffect(() => {
     dispatch(fetchCharacters());
-  }, []);
+  }, [dispatch]);
 
 
   return (
