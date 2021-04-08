@@ -46,9 +46,9 @@ export const fetchCharacters = () => async (dispatch) => {
     next: data.next,
     results: data.results}
     ))
-    dispatch(previousPage({
-      previous: data.previous,
-      results: data.results}
+  dispatch(previousPage({
+    previous: data.previous,
+    results: data.results}
       ))
 }
 
